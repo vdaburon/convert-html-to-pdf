@@ -46,6 +46,69 @@ E.g : java -jar convert-html-to-pdf-&lt;version&gt;-jar-with-dependencies.jar -h
 
 </pre>
 
+## Usage Maven
+
+The maven groupId, artifactId and version, this plugin is in the **Maven Central Repository** [![Maven Central](https://img.shields.io/maven-central/v/io.github.vdaburon/convert-html-to-pdf)](https://central.sonatype.com/artifact/io.github.vdaburon/convert-html-to-pdf)
+
+
+
+```xml
+<groupId>io.github.vdaburon</groupId>
+<artifactId>convert-html-to-pdf</artifactId>
+<version>1.0</version>
+```
+Just include the plugin in your `pom.xml` and execute `mvn verify` <br>
+or individual launch `mvn -Dimage_width=960 -Dhtml_in=target/index.html -Dpdf_out=target/report.pdf exec:java@convert_html_to_pdf`
+
+```xml
+<project>
+    <properties>
+        <html_in>index.html</html_in>
+        <pdf_out>document.pdf</pdf_out>
+        <image_width>1024</image_width>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>io.github.vdaburon</groupId>
+            <artifactId>convert-html-to-pdf</artifactId>
+            <version>1.0</version>
+        </dependency>
+    </dependencies>
+    
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.2.1</version>
+                <executions>
+                    <execution>
+                        <!-- individual launch : mvn exec:java@convert_html_to_pdf -->
+                        <id>convert_html_to_pdf</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                        <configuration>
+                            <mainClass>io.github.vdaburon.converthtml2pdf.Html2PDFConvertor</mainClass>
+                            <arguments>
+                                <argument>-html_in</argument>
+                                <argument>${html_in}</argument>
+                                <argument>-pdf_out</argument>
+                                <argument>${pdf_out}</argument>
+                                <argument>-image_width</argument>
+                                <argument>${image_width}</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
+```
+
 ## Link to others projects
 Usually this plugin is use with [jmeter-graph-tool-maven-plugin](https://github.com/vdaburon/jmeter-graph-tool-maven-plugin)<br>
 and this plugin [create-html-for-files-in-directory](https://github.com/vdaburon/CreateHtmlForFilesInDirectory)
